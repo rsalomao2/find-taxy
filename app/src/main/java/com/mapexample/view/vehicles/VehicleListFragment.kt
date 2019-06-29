@@ -1,12 +1,10 @@
 package com.mapexample.view.vehicles
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.mapexample.R
 import com.mapexample.model.Vehicle
@@ -48,7 +46,7 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
                 view.findNavController().navigate(R.id.action_vehicleListFragment_to_mapsFragment)
             }
         })
-        rviList.layoutManager = LinearLayoutManager(context)
+        rviList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         rviList.adapter = mAdapter
     }
 
