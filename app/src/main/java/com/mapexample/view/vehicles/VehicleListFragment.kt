@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
 import com.mapexample.R
 import com.mapexample.model.Vehicle
 import com.mapexample.util.toast
@@ -43,8 +44,8 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
     private fun setRecycleView() {
         mAdapter = VehicleListAdapter(mutableListOf(), object :
             VehicleListAdapter.OnItemClickListener {
-            override fun onItemClick(item: Vehicle) {
-                Toast.makeText(context, item.id!!.toString(), Toast.LENGTH_SHORT).show()
+            override fun onItemClick(view: View, item: Vehicle) {
+                view.findNavController().navigate(R.id.action_vehicleListFragment_to_mapsFragment)
             }
         })
         rviList.layoutManager = LinearLayoutManager(context)

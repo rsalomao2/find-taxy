@@ -8,10 +8,11 @@ import com.mapexample.R
 import com.mapexample.model.Vehicle
 import kotlinx.android.synthetic.main.layout_car_list_item.view.*
 
-class VehicleListAdapter(private val items : MutableList<Vehicle>, private val listener: OnItemClickListener) : RecyclerView.Adapter<VehicleListAdapter.ViewHolder>() {
+class VehicleListAdapter(private val items: MutableList<Vehicle>, private val listener: OnItemClickListener) :
+    RecyclerView.Adapter<VehicleListAdapter.ViewHolder>() {
 
-    interface OnItemClickListener{
-        fun onItemClick(item: Vehicle)
+    interface OnItemClickListener {
+        fun onItemClick(view: View, item: Vehicle)
     }
 
     override fun getItemCount(): Int {
@@ -23,7 +24,7 @@ class VehicleListAdapter(private val items : MutableList<Vehicle>, private val l
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(items[position],listener)
+        holder.bindView(items[position], listener)
     }
 
     fun updateList(vehicle: List<Vehicle>) {
@@ -35,7 +36,7 @@ class VehicleListAdapter(private val items : MutableList<Vehicle>, private val l
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindView(vehicle: Vehicle, listener: OnItemClickListener) {
-            when(vehicle.fleetType){
+            when (vehicle.fleetType) {
                 Vehicle.Type.POOLING.type -> {
                     itemView.ivThumbnail.setImageResource(R.drawable.ic_pooling)
                     itemView.tvType.text = Vehicle.Type.POOLING.name
@@ -45,8 +46,8 @@ class VehicleListAdapter(private val items : MutableList<Vehicle>, private val l
                     itemView.tvType.text = Vehicle.Type.TAXI.name
                 }
             }
-            itemView.setOnClickListener{
-                listener.onItemClick(vehicle)
+            itemView.setOnClickListener {
+                listener.onItemClick(it, vehicle)
             }
 
         }
