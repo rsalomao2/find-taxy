@@ -1,7 +1,8 @@
-package com.mapexample
+package com.mapexample.view
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.mapexample.R
 
 class MainActivity : AppCompatActivity() {
 

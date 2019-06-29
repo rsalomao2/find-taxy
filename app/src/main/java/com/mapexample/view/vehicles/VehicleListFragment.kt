@@ -1,5 +1,4 @@
-package com.mapexample.vehicles
-
+package com.mapexample.view.vehicles
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,12 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.mapexample.R
+import com.mapexample.model.Vehicle
+import com.mapexample.network.dto.VehicleDto
 import kotlinx.android.synthetic.main.fragment_car_list.*
 
 class VehicleListFragment : Fragment(), VehicleContract.View {
+    override fun onError(message: String?) {
+
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun hideLoading() {
+
+    }
+
     private lateinit var mAdapter: VehicleListAdapter
 
-    override fun onVehicleListLoaded(vehicle: MutableList<Vehicle>) {
+    override fun onVehicleListLoaded(vehicle: List<Vehicle>) {
         mAdapter.updateList(vehicle)
     }
 
@@ -27,22 +40,19 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mPresenter = VehiclePresenter(this)
+        val mPresenter = VehiclePresenter(this, context)
         setRecycleView()
-        mPresenter.getVehicles(0f,0f)
+        mPresenter.getVehicles(53.513931f, 9.989999f,53.513931f, 9.989999f)
     }
 
     private fun setRecycleView() {
         mAdapter = VehicleListAdapter(mutableListOf(), object :
             VehicleListAdapter.OnItemClickListener {
             override fun onItemClick(item: Vehicle) {
-                Toast.makeText(context, item.text, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, item.id!!, Toast.LENGTH_SHORT).show()
             }
         })
         rviList.layoutManager = LinearLayoutManager(context)
         rviList.adapter = mAdapter
     }
-
-
-
 }

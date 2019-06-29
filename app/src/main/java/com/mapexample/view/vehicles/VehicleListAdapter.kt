@@ -1,10 +1,11 @@
-package com.mapexample.vehicles
+package com.mapexample.view.vehicles
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mapexample.R
+import com.mapexample.model.Vehicle
 import kotlinx.android.synthetic.main.layout_car_list_item.view.*
 
 class VehicleListAdapter(private val items : MutableList<Vehicle>, private val listener: OnItemClickListener) : RecyclerView.Adapter<VehicleListAdapter.ViewHolder>() {
@@ -25,7 +26,7 @@ class VehicleListAdapter(private val items : MutableList<Vehicle>, private val l
         holder.bindView(items[position],listener)
     }
 
-    fun updateList(vehicle: MutableList<Vehicle>) {
+    fun updateList(vehicle: List<Vehicle>) {
         items.clear()
         items.addAll(vehicle)
         notifyDataSetChanged()
@@ -34,7 +35,7 @@ class VehicleListAdapter(private val items : MutableList<Vehicle>, private val l
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindView(vehicle: Vehicle, listener: OnItemClickListener) {
-            itemView.textView.text = vehicle.text
+            itemView.textView.text = vehicle.id.toString()
             itemView.setOnClickListener{
                 listener.onItemClick(vehicle)
             }
