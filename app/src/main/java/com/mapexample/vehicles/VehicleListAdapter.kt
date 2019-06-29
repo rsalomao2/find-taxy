@@ -1,15 +1,16 @@
-package com.mapexample
+package com.mapexample.vehicles
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mapexample.R
 import kotlinx.android.synthetic.main.layout_car_list_item.view.*
 
-class CarListAdapter(private val items : MutableList<Car>, private val listener: OnItemClickListener) : RecyclerView.Adapter<CarListAdapter.ViewHolder>() {
+class VehicleListAdapter(private val items : MutableList<Vehicle>, private val listener: OnItemClickListener) : RecyclerView.Adapter<VehicleListAdapter.ViewHolder>() {
 
     interface OnItemClickListener{
-        fun onItemClick(item: Car)
+        fun onItemClick(item: Vehicle)
     }
 
     override fun getItemCount(): Int {
@@ -24,12 +25,18 @@ class CarListAdapter(private val items : MutableList<Car>, private val listener:
         holder.bindView(items[position],listener)
     }
 
+    fun updateList(vehicle: MutableList<Vehicle>) {
+        items.clear()
+        items.addAll(vehicle)
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindView(car: Car,listener: OnItemClickListener) {
-            itemView.textView.text = car.text
+        fun bindView(vehicle: Vehicle, listener: OnItemClickListener) {
+            itemView.textView.text = vehicle.text
             itemView.setOnClickListener{
-                listener.onItemClick(car)
+                listener.onItemClick(vehicle)
             }
 
         }
