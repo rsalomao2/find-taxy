@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -50,6 +53,7 @@ dependencies {
 
     //Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
 
 
 }

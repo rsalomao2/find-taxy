@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.mapexample.R
 import com.mapexample.model.Vehicle
 import com.mapexample.util.toast
+import com.mapexample.view.maps.MapsFragment
 import kotlinx.android.synthetic.main.fragment_car_list.*
 
 class VehicleListFragment : Fragment(), VehicleContract.View {
@@ -43,7 +43,9 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         mAdapter = VehicleListAdapter(mutableListOf(), object :
             VehicleListAdapter.OnItemClickListener {
             override fun onItemClick(view: View, item: Vehicle) {
-                view.findNavController().navigate(R.id.action_vehicleListFragment_to_mapsFragment)
+                fragmentManager?.beginTransaction()
+                    ?.add(R.id.frag_container,MapsFragment.newInstance(item))
+                    ?.commit()
             }
         })
         rviList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)

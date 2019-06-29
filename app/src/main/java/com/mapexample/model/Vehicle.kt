@@ -1,11 +1,13 @@
 package com.mapexample.model
 
+import java.io.Serializable
+
 class Vehicle(
     val id: Int?,
-    val coordinate: Coordinate?,
+        val coordinate: Coordinate?,
     val fleetType: String?,
     val heading: Double?
-    ) {
+    ) : Serializable {
 
     enum class Type(val type: String) {
         POOLING("POOLING"),
