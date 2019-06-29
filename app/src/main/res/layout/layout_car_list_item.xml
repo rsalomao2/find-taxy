@@ -4,13 +4,27 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content">
-
+    <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/ivThumbnail" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+    />
     <TextView
-            android:text="Item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/tvType" tools:text="Taxi"
+            app:layout_constraintTop_toTopOf="@+id/ivThumbnail" android:layout_marginStart="32dp"
+            app:layout_constraintStart_toEndOf="@+id/ivThumbnail" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivThumbnail" android:textSize="36sp" android:textStyle="bold"/>
+    <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:id="@+id/view" android:background="#C4BCBC"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:layout_marginTop="8dp"/>
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivThumbnail" app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>

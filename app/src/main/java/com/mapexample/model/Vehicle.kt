@@ -7,6 +7,10 @@ class Vehicle(
     val heading: Double?
     ) {
 
+    enum class Type(val type: String) {
+        POOLING("POOLING"),
+        TAXI("TAXI"),
+    }
     data class Builder(
         var id: Int? = null,
         var coordinate: Coordinate? = null,

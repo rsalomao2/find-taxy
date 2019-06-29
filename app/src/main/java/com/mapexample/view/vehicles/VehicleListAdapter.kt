@@ -35,7 +35,16 @@ class VehicleListAdapter(private val items : MutableList<Vehicle>, private val l
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindView(vehicle: Vehicle, listener: OnItemClickListener) {
-            itemView.textView.text = vehicle.id.toString()
+            when(vehicle.fleetType){
+                Vehicle.Type.POOLING.type -> {
+                    itemView.ivThumbnail.setImageResource(R.drawable.ic_pooling)
+                    itemView.tvType.text = Vehicle.Type.POOLING.name
+                }
+                Vehicle.Type.TAXI.type -> {
+                    itemView.ivThumbnail.setImageResource(R.drawable.ic_taxi)
+                    itemView.tvType.text = Vehicle.Type.TAXI.name
+                }
+            }
             itemView.setOnClickListener{
                 listener.onItemClick(vehicle)
             }

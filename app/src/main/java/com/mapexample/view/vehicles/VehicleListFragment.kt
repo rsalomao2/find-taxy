@@ -42,14 +42,19 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         super.onViewCreated(view, savedInstanceState)
         val mPresenter = VehiclePresenter(this, context)
         setRecycleView()
-        mPresenter.getVehicles(53.513931f, 9.989999f,53.513931f, 9.989999f)
+        mPresenter.getVehicles(
+            53.694865f,
+            9.757589f,
+            53.394655f,
+            10.099891f
+        )
     }
 
     private fun setRecycleView() {
         mAdapter = VehicleListAdapter(mutableListOf(), object :
             VehicleListAdapter.OnItemClickListener {
             override fun onItemClick(item: Vehicle) {
-                Toast.makeText(context, item.id!!, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, item.id!!.toString(), Toast.LENGTH_SHORT).show()
             }
         })
         rviList.layoutManager = LinearLayoutManager(context)

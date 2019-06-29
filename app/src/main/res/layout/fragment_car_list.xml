@@ -14,5 +14,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@tools:sample/cities"/>
+            tools:listitem="@layout/layout_car_list_item"
+            />
 </android.support.constraint.ConstraintLayout>
