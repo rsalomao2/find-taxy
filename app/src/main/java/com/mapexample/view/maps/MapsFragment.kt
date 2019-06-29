@@ -163,9 +163,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
      */
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
-        vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
+        val imgWidth = 150
+        val imgHeight = 150
+        vectorDrawable!!.setBounds(0, 0, imgWidth, imgHeight)
         val bitmap =
-            Bitmap.createBitmap(15, 15, Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(imgWidth, imgHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)

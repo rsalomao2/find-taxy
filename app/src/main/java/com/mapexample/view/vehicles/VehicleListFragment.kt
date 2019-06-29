@@ -45,6 +45,7 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
             override fun onItemClick(view: View, item: Vehicle) {
                 fragmentManager?.beginTransaction()
                     ?.add(R.id.frag_container,MapsFragment.newInstance(item))
+                    ?.addToBackStack("")
                     ?.commit()
             }
         })
