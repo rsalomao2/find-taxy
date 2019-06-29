@@ -9,21 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.mapexample.R
 import com.mapexample.model.Vehicle
-import com.mapexample.network.dto.VehicleDto
+import com.mapexample.util.toast
 import kotlinx.android.synthetic.main.fragment_car_list.*
 
 class VehicleListFragment : Fragment(), VehicleContract.View {
-    override fun onError(message: String?) {
 
-    }
-
-    override fun showLoading() {
-
-    }
-
-    override fun hideLoading() {
-
-    }
 
     private lateinit var mAdapter: VehicleListAdapter
 
@@ -59,5 +49,18 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         })
         rviList.layoutManager = LinearLayoutManager(context)
         rviList.adapter = mAdapter
+    }
+
+    override fun onError(message: String?) {
+        if (!message.isNullOrEmpty())
+            toast(message)
+    }
+
+    override fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        progressBar.visibility = View.GONE
     }
 }
