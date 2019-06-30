@@ -1,10 +1,12 @@
 package com.mapexample.view.vehicles
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.android.gms.maps.model.LatLngBounds
 import com.mapexample.model.builder.LatLngBoundsBuilder
 import com.mapexample.R
@@ -25,6 +27,10 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         mAdapter.updateList(vehicleList)
     }
 
+    companion object{
+        const val ARG_VEHICLE = "clickedVehicle"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +42,7 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         super.onViewCreated(view, savedInstanceState)
         val mPresenter = VehiclePresenter(this, context)
         setRecycleView()
-        setToolBar()
+        setToolbar()
         mPresenter.getVehicles(getLatLngBound(hamburg))
     }
 
@@ -47,20 +53,18 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
             .build()
     }
 
-    private fun setToolBar() {
+    private fun setToolbar() {
         val act = requireActivity() as MainActivity
-        act.supportActionBar?.title = getString(R.string.l_fragment_list_vehicle_type_title)
-        act.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        act.supportActionBar?.title = getString(R.string.app_name)
     }
 
     private fun setRecycleView() {
         mAdapter = VehicleListAdapter(mutableListOf(), object :
             VehicleListAdapter.OnItemClickListener {
             override fun onItemClick(view: View, item: Vehicle) {
-                fragmentManager?.beginTransaction()
-                    ?.add(R.id.frag_container, MapsFragment.newInstance(item))
-                    ?.addToBackStack("")
-                    ?.commit()
+                val bundle = Bundle()
+                bundle.putSerializable(ARG_VEHICLE, item)
+                view.findNavController().navigate(R.id.action_vehicleListFragment_to_mapsFragment,bundle)
             }
         })
         rviList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)

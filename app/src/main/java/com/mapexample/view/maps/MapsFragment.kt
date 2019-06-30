@@ -24,6 +24,7 @@ import com.mapexample.util.toast
 import com.mapexample.view.MainActivity
 import com.mapexample.view.dialog.GeneralTextDialog
 import com.mapexample.view.vehicles.VehicleContract
+import com.mapexample.view.vehicles.VehicleListFragment
 import com.mapexample.view.vehicles.VehiclePresenter
 
 class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
@@ -35,15 +36,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
     private var vehicle: Vehicle? = null
 
     companion object {
-        const val ARGS_VEHICLE = "vehicle"
         const val LOCATION_REQUEST_CODE = 99
-        fun newInstance(vehicle: Vehicle?): MapsFragment {
-            val fragment = MapsFragment()
-            val bundle = Bundle()
-            bundle.putSerializable(ARGS_VEHICLE, vehicle)
-            fragment.arguments = bundle
-            return fragment
-        }
     }
 
     override fun onCreateView(
@@ -55,7 +48,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vehicle = arguments?.getSerializable(ARGS_VEHICLE) as Vehicle
+        vehicle = arguments?.getSerializable(VehicleListFragment.ARG_VEHICLE) as Vehicle
         setMap()
         mPresenter = VehiclePresenter(this, requireContext())
         setToolbar()
@@ -70,7 +63,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
     private fun setToolbar() {
         val act = requireActivity() as MainActivity
         act.supportActionBar?.title = getString(R.string.l_fragment_map_title)
-        act.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
