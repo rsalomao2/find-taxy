@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.mapexample.R
 import com.mapexample.model.Vehicle
 import com.mapexample.util.toast
@@ -16,8 +18,8 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
 
     private lateinit var mAdapter: VehicleListAdapter
 
-    override fun onVehicleListLoaded(vehicle: List<Vehicle>) {
-        mAdapter.updateList(vehicle)
+    override fun onVehicleListLoaded(vehicleList: List<Vehicle>) {
+        mAdapter.updateList(vehicleList)
     }
 
     override fun onCreateView(
@@ -31,12 +33,8 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         super.onViewCreated(view, savedInstanceState)
         val mPresenter = VehiclePresenter(this, context)
         setRecycleView()
-        mPresenter.getVehicles(
-            53.694865f,
-            9.757589f,
-            53.394655f,
-            10.099891f
-        )
+        val hamburg = LatLngBounds(LatLng(53.394655,10.099891),LatLng(53.694865,9.757589))
+        mPresenter.getVehicles(hamburg)
     }
 
     private fun setRecycleView() {

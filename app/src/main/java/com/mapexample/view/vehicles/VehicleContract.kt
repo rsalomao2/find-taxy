@@ -1,10 +1,11 @@
 package com.mapexample.view.vehicles
 
+import com.google.android.gms.maps.model.LatLngBounds
 import com.mapexample.model.Vehicle
 
 interface VehicleContract {
     interface View{
-        fun onVehicleListLoaded(vehicle: List<Vehicle>)
+        fun onVehicleListLoaded(vehicleList: List<Vehicle>)
         fun onError(message: String?)
         fun showLoading()
         fun hideLoading()
@@ -12,7 +13,7 @@ interface VehicleContract {
     }
 
     interface Presenter{
-        fun getVehicles(lat1: Float, lng1: Float,lat2: Float, lng2: Float)
+        fun getVehicles(latLngBounds: LatLngBounds)
         fun onStop()
     }
 }

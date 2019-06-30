@@ -1,5 +1,6 @@
 package com.mapexample.model
 
+import com.mapexample.network.dto.CoordinateDto
 import java.io.Serializable
 
 class Vehicle(
@@ -21,7 +22,12 @@ class Vehicle(
     ) {
 
         fun id(id: Int) = apply { this.id = id }
-        fun coordinate(condiments: Coordinate) = apply { this.coordinate = condiments }
+        fun coordinate(coordinate: CoordinateDto) = apply {
+            this.coordinate = Coordinate.Builder()
+                .latitude(coordinate.latitude)
+                .longitude(coordinate.longitude)
+                .build()
+        }
         fun fleetType(fleetType: String) = apply { this.fleetType = fleetType }
         fun heading(heading: Double) = apply { this.heading = heading }
         fun build() = Vehicle(id, coordinate, fleetType, heading)

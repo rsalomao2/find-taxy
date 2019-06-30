@@ -1,6 +1,7 @@
 package com.mapexample.view.vehicles
 
 import android.content.Context
+import com.google.android.gms.maps.model.LatLngBounds
 import com.mapexample.R
 import com.mapexample.model.Vehicle
 import com.mapexample.network.ApiClient
@@ -16,11 +17,12 @@ class VehiclePresenter(private val mView: VehicleContract.View, private val cont
 
     private var disposable: Disposable? = null
 
-    override fun getVehicles(lat1: Float, lng1: Float, lat2: Float, lng2: Float) {
-
+    override fun getVehicles(latLngBounds: LatLngBounds) {
+        val northeast = latLngBounds.northeast
+        val southwest = latLngBounds.southwest
         mView.showLoading()
         disposable = ApiClient.instance.create(VehicleService::class.java)
-            .loadVehicles(lat1, lng1, lat2, lng2)
+            .loadVehicles(northeast.latitude, northeast.longitude, southwest.latitude, southwest.longitude)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->

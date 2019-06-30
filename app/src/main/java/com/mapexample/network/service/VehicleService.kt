@@ -10,9 +10,9 @@ interface VehicleService {
 
     @GET("/")
     fun loadVehicles(
-        @Query("p1Lat") lat1: Float,
-        @Query("p1Lon") lng1: Float,
-        @Query("p2Lat") lat2: Float,
-        @Query("p2Lon") lng2: Float
+        @Query("p1Lat") lat1: Double,
+        @Query("p1Lon") lng1: Double,
+        @Query("p2Lat") lat2: Double,
+        @Query("p2Lon") lng2: Double
     ): Observable<VehicleResponseDto>
 }
