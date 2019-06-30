@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.mapexample.model.builder.LatLngBoundsBuilder
 import com.mapexample.R
+import com.mapexample.model.Bounds
 import com.mapexample.model.Vehicle
 import com.mapexample.util.toast
+import com.mapexample.view.MainActivity
 import com.mapexample.view.maps.MapsFragment
 import kotlinx.android.synthetic.main.fragment_car_list.*
 
 class VehicleListFragment : Fragment(), VehicleContract.View {
 
+    private val hamburg = Bounds(53.394655, 10.099891, 53.694865, 9.757589)
 
     private lateinit var mAdapter: VehicleListAdapter
 
@@ -33,8 +36,21 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         super.onViewCreated(view, savedInstanceState)
         val mPresenter = VehiclePresenter(this, context)
         setRecycleView()
-        val hamburg = LatLngBounds(LatLng(53.394655,10.099891),LatLng(53.694865,9.757589))
-        mPresenter.getVehicles(hamburg)
+        setToolBar()
+        mPresenter.getVehicles(getLatLngBound(hamburg))
+    }
+
+    private fun getLatLngBound(hamburg: Bounds): LatLngBounds {
+        return LatLngBoundsBuilder.Builder()
+            .northeast(hamburg.lat1, hamburg.lng1)
+            .southwest(hamburg.lat2, hamburg.lng2)
+            .build()
+    }
+
+    private fun setToolBar() {
+        val act = requireActivity() as MainActivity
+        act.supportActionBar?.title = getString(R.string.l_fragment_list_vehicle_type_title)
+        act.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun setRecycleView() {
@@ -42,7 +58,7 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
             VehicleListAdapter.OnItemClickListener {
             override fun onItemClick(view: View, item: Vehicle) {
                 fragmentManager?.beginTransaction()
-                    ?.add(R.id.frag_container,MapsFragment.newInstance(item))
+                    ?.add(R.id.frag_container, MapsFragment.newInstance(item))
                     ?.addToBackStack("")
                     ?.commit()
             }

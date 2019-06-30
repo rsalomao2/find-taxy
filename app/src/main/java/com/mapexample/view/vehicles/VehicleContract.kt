@@ -13,7 +13,7 @@ interface VehicleContract {
     }
 
     interface Presenter{
-        fun getVehicles(latLngBounds: LatLngBounds)
+        fun getVehicles(latLngBounds: LatLngBounds?)
         fun onStop()
     }
 }

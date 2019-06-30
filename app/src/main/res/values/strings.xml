@@ -6,4 +6,6 @@
     <string name="s_location_needed_explanation">We need to know where you are to show our vehicles. Can you give us
         this access?
     </string>
+    <string name="l_fragment_list_vehicle_type_title">Vehicles by Type</string>
+    <string name="l_fragment_map_title">Map</string>
 </resources>

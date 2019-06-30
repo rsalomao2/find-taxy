@@ -17,25 +17,27 @@ class VehiclePresenter(private val mView: VehicleContract.View, private val cont
 
     private var disposable: Disposable? = null
 
-    override fun getVehicles(latLngBounds: LatLngBounds) {
-        val northeast = latLngBounds.northeast
-        val southwest = latLngBounds.southwest
-        mView.showLoading()
-        disposable = ApiClient.instance.create(VehicleService::class.java)
-            .loadVehicles(northeast.latitude, northeast.longitude, southwest.latitude, southwest.longitude)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ response ->
-                mView.hideLoading()
-                mView.onVehicleListLoaded(getVehicleList(response))
-            }, { error ->
-                mView.hideLoading()
-                if (error is HttpException) {
-                    mView.onError(context?.getString(R.string.e_network))
-                } else {
-                    mView.onError(error.message)
-                }
-            })
+    override fun getVehicles(latLngBounds: LatLngBounds?) {
+        if(latLngBounds!=null){
+            val northeast = latLngBounds.northeast
+            val southwest = latLngBounds.southwest
+            mView.showLoading()
+            disposable = ApiClient.instance.create(VehicleService::class.java)
+                .loadVehicles(northeast.latitude, northeast.longitude, southwest.latitude, southwest.longitude)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    mView.hideLoading()
+                    mView.onVehicleListLoaded(getVehicleList(response))
+                }, { error ->
+                    mView.hideLoading()
+                    if (error is HttpException) {
+                        mView.onError(context?.getString(R.string.e_network))
+                    } else {
+                        mView.onError(error.message)
+                    }
+                })
+        }
     }
 
     private fun getVehicleList(response: VehicleResponseDto): List<Vehicle> {
