@@ -20,12 +20,17 @@ import com.google.android.gms.maps.model.*
 import com.mapexample.R
 import com.mapexample.model.Coordinate
 import com.mapexample.model.Vehicle
+import com.mapexample.network.ApiClient
+import com.mapexample.network.service.VehicleService
+import com.mapexample.rx.BaseSchedulerProvider
+import com.mapexample.rx.SchedulerProvider
 import com.mapexample.util.toast
 import com.mapexample.view.MainActivity
 import com.mapexample.view.dialog.GeneralTextDialog
 import com.mapexample.view.vehicles.VehicleContract
 import com.mapexample.view.vehicles.VehicleListFragment
 import com.mapexample.view.vehicles.VehiclePresenter
+import io.reactivex.disposables.CompositeDisposable
 
 class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
 
@@ -50,7 +55,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
         super.onViewCreated(view, savedInstanceState)
         vehicle = arguments?.getSerializable(VehicleListFragment.ARG_VEHICLE) as Vehicle
         setMap()
-        mPresenter = VehiclePresenter(this, requireContext())
+        val vehicleService = ApiClient.instance.create(VehicleService::class.java)
+        mPresenter = VehiclePresenter(this, vehicleService, SchedulerProvider(), CompositeDisposable())
         setToolbar()
     }
 
@@ -103,7 +109,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
             .bearing(10f)
             .build()
         mMap?.setOnMapLoadedCallback {
-            mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            val newCameraPosition = CameraUpdateFactory.newCameraPosition(cameraPosition)
+            mMap?.animateCamera(newCameraPosition)
         }
     }
 
@@ -151,6 +158,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ), LOCATION_REQUEST_CODE
                 )
+                if (dialogMsgFrag.isVisible){
+                    dialogMsgFrag.dismiss()
+                }
             }
         })
         dialogMsgFrag.show(fragmentManager, "")
@@ -206,8 +216,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
         }
     }
 
-    override fun onError(message: String?) {
-        if (!message.isNullOrBlank())
+    override fun onError(message: String) {
+        if (!message.isBlank())
             toast(message)
     }
 
@@ -217,5 +227,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
 
     override fun hideLoading() {
 
+    }
+
+    override fun onNetworkError() {
+        getString(R.string.e_network)
     }
 }

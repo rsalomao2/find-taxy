@@ -1,6 +1,5 @@
 package com.mapexample.view.vehicles
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +11,12 @@ import com.mapexample.model.builder.LatLngBoundsBuilder
 import com.mapexample.R
 import com.mapexample.model.Bounds
 import com.mapexample.model.Vehicle
+import com.mapexample.network.ApiClient
+import com.mapexample.network.service.VehicleService
+import com.mapexample.rx.SchedulerProvider
 import com.mapexample.util.toast
 import com.mapexample.view.MainActivity
-import com.mapexample.view.maps.MapsFragment
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_car_list.*
 
 class VehicleListFragment : Fragment(), VehicleContract.View {
@@ -27,7 +29,7 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         mAdapter.updateList(vehicleList)
     }
 
-    companion object{
+    companion object {
         const val ARG_VEHICLE = "clickedVehicle"
     }
 
@@ -40,10 +42,15 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mPresenter = VehiclePresenter(this, context)
+        val vehicleService = ApiClient.instance.create(VehicleService::class.java)
+        val mPresenter = VehiclePresenter(this, vehicleService, SchedulerProvider(), CompositeDisposable())
         setRecycleView()
         setToolbar()
         mPresenter.getVehicles(getLatLngBound(hamburg))
+    }
+
+    override fun onNetworkError() {
+        getString(R.string.e_network)
     }
 
     private fun getLatLngBound(hamburg: Bounds): LatLngBounds {
@@ -64,15 +71,15 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
             override fun onItemClick(view: View, item: Vehicle) {
                 val bundle = Bundle()
                 bundle.putSerializable(ARG_VEHICLE, item)
-                view.findNavController().navigate(R.id.action_vehicleListFragment_to_mapsFragment,bundle)
+                view.findNavController().navigate(R.id.action_vehicleListFragment_to_mapsFragment, bundle)
             }
         })
         rviList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         rviList.adapter = mAdapter
     }
 
-    override fun onError(message: String?) {
-        if (!message.isNullOrEmpty())
+    override fun onError(message: String) {
+        if (message.isNotEmpty())
             toast(message)
     }
 

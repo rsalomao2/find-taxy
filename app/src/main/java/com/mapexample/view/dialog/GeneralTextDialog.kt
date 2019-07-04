@@ -12,18 +12,33 @@ import androidx.fragment.app.DialogFragment
 import com.mapexample.R
 import kotlinx.android.synthetic.main.lay_dialog_text.*
 
-
-/**
- * Created by alvarom on 26/05/2017.
- * To show the result for Pre Check in
- */
-
 class GeneralTextDialog : DialogFragment() {
 
     private var title: String? = null
     private var detail: String? = null
     private var mView: View? = null
     private var mListener: DialogMsgInterface? = null
+
+    interface DialogMsgInterface {
+        fun onDialogMsgComplete()
+    }
+
+    companion object {
+        private const val TITLE = "title"
+        private const val DETAIL = "detail"
+
+
+        fun newInstance(title: String, detail: String): GeneralTextDialog {
+            val frag = GeneralTextDialog()
+            val args = Bundle()
+            args.putString(TITLE, title)
+            args.putString(DETAIL, detail)
+
+            frag.arguments = args
+            return frag
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +83,8 @@ class GeneralTextDialog : DialogFragment() {
     private fun setActions() {
         btnAction.setOnClickListener {
             if (mListener != null) {
-                mListener!!.onDialogMsgComplete()
                 dismiss()
+                mListener!!.onDialogMsgComplete()
             }
         }
 
@@ -79,24 +94,5 @@ class GeneralTextDialog : DialogFragment() {
         this.mListener = mListener
     }
 
-    interface DialogMsgInterface {
-        fun onDialogMsgComplete()
-    }
-
-    companion object {
-        private const val TITLE = "title"
-        private const val DETAIL = "detail"
-
-
-        fun newInstance(title: String, detail: String): GeneralTextDialog {
-            val frag = GeneralTextDialog()
-            val args = Bundle()
-            args.putString(TITLE, title)
-            args.putString(DETAIL, detail)
-
-            frag.arguments = args
-            return frag
-        }
-    }
 
 }

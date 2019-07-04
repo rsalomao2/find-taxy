@@ -8,4 +8,5 @@
     </string>
     <string name="l_fragment_list_vehicle_type_title">Vehicles by Type</string>
     <string name="l_fragment_map_title">Map</string>
+    <string name="l_ok">Ok</string>
 </resources>

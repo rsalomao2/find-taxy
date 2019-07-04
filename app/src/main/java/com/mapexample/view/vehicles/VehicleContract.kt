@@ -4,15 +4,15 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.mapexample.model.Vehicle
 
 interface VehicleContract {
-    interface View{
+    interface View {
         fun onVehicleListLoaded(vehicleList: List<Vehicle>)
-        fun onError(message: String?)
+        fun onError(message: String)
         fun showLoading()
         fun hideLoading()
-
+        fun onNetworkError()
     }
 
-    interface Presenter{
+    interface Presenter {
         fun getVehicles(latLngBounds: LatLngBounds?)
         fun onStop()
     }
