@@ -51,6 +51,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.onStop()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vehicle = arguments?.getSerializable(VehicleListFragment.ARG_VEHICLE) as Vehicle
@@ -158,7 +163,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, VehicleContract.View {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ), LOCATION_REQUEST_CODE
                 )
-                if (dialogMsgFrag.isVisible){
+                if (dialogMsgFrag.isVisible) {
                     dialogMsgFrag.dismiss()
                 }
             }

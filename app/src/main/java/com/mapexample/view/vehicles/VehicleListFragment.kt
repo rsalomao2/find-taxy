@@ -24,6 +24,7 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
     private val hamburg = Bounds(53.394655, 10.099891, 53.694865, 9.757589)
 
     private lateinit var mAdapter: VehicleListAdapter
+    private lateinit var mPresenter: VehiclePresenter
 
     override fun onVehicleListLoaded(vehicleList: List<Vehicle>) {
         mAdapter.updateList(vehicleList)
@@ -40,10 +41,15 @@ class VehicleListFragment : Fragment(), VehicleContract.View {
         return inflater.inflate(R.layout.fragment_car_list, container, false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.onStop()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val vehicleService = ApiClient.instance.create(VehicleService::class.java)
-        val mPresenter = VehiclePresenter(this, vehicleService, SchedulerProvider(), CompositeDisposable())
+        mPresenter = VehiclePresenter(this, vehicleService, SchedulerProvider(), CompositeDisposable())
         setRecycleView()
         setToolbar()
         mPresenter.getVehicles(getLatLngBound(hamburg))

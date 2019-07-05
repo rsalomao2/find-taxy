@@ -5,9 +5,7 @@ import com.mapexample.model.Vehicle
 import com.mapexample.network.dto.VehicleResponseDto
 import com.mapexample.network.service.VehicleService
 import com.mapexample.rx.BaseSchedulerProvider
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
 class VehiclePresenter(
@@ -17,8 +15,6 @@ class VehiclePresenter(
     private var disposable: Disposable
 ) :
     VehicleContract.Presenter {
-
-//    private var disposable: Disposable? = null
 
     override fun getVehicles(latLngBounds: LatLngBounds?) {
         if (latLngBounds != null) {
@@ -61,4 +57,3 @@ class VehiclePresenter(
         disposable.dispose()
     }
 }
-
